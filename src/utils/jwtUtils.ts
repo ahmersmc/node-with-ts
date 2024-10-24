@@ -1,12 +1,14 @@
 import { sign } from 'jsonwebtoken'
 
 const generateToken = (payload: string | Buffer | object) => {
-  const secretKey = 'yourSecretKey' // Replace with your own secret key
-  const options = {
-    expiresIn: '1h', // Token expiration time
-  }
+  const jwtSecret = process.env.JWT_SECRET
 
-  const token = sign(payload, secretKey, options)
+  // if env missing
+  if (!jwtSecret) return ''
+
+  const options = { expiresIn: '1h' }
+
+  const token = sign(payload, jwtSecret, options)
   return token
 }
 
