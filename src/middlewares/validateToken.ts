@@ -23,6 +23,7 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
     if (err) return res.status(403).json({ success, message: 'Invalid token' })
 
     // append  user in request
+    // @ts-ignore
     req.user = payload
     next()
   })

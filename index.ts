@@ -2,8 +2,9 @@ import { config } from 'dotenv'
 import bodyParser from 'body-parser'
 import express, { Request, Response } from 'express'
 
-import generateToken from './utils/jwtUtils'
-import validateToken from './middlewares/validateToken'
+import authRouter from '@/routes/auth'
+import generateToken from '@/utils/jwtUtils'
+import validateToken from '@/middlewares/validateToken'
 
 const PORT = 3005
 const app = express()
@@ -17,8 +18,9 @@ app.use(bodyParser.json())
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello, server working')
 })
-app.use('/', require('./routes/note'))
-app.use('/admin', require('./routes/admin'))
+app.use('/register', authRouter)
+app.use('/login', authRouter)
+// app.use('/admin', require('./routes/admin'))
 
 // Hardcoded User Data (In a real-world scenario, this would be retrieved from a database)
 const user = { id: 1, username: 'johnDoe', password: 'password' }
@@ -46,13 +48,20 @@ app.post('/login', (req, res) => {
 })
 
 // Protected Route
-app.get('/protected', validateToken, (req: Request, res: Response) => {
-  res.json({
-    success: true,
-    message: 'Welcome to the protected route!',
-    user: req.user,
-  })
-})
+app.get(
+  '/protected',
+  (req, res, next) => {
+    validateToken(req, res, next)
+  },
+  (req: Request, res: Response) => {
+    res.json({
+      success: true,
+      message: 'Welcome to the protected route!',
+      // @ts-ignore
+      user: req.user,
+    })
+  }
+)
 
 // Start the server and listen on the specified PORT
 app.listen(PORT, () => {

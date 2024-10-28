@@ -1,8 +1,8 @@
 import { sql } from 'drizzle-orm'
 import { boolean, integer, pgTable, timestamp } from 'drizzle-orm/pg-core'
 
-import usersTable from '@/schema//usersSchema'
-import productsTable from '@/schema//productsSchema'
+import usersTable from '@/schema/usersSchema'
+import productsTable from '@/schema/productsSchema'
 
 const ordersTable = pgTable('orders', {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),

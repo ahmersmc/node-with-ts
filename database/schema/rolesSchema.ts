@@ -1,16 +1,12 @@
-import {
-  boolean,
-  integer,
-  pgTable,
-  timestamp,
-  varchar,
-} from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
+import { boolean, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core'
 
 const rolesTable = pgTable('roles', {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  id: uuid()
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
 
-  name: varchar({ length: 255 }).notNull(),
+  name: varchar({ length: 20 }).notNull().unique(),
 
   published: boolean().default(true),
   created_at: timestamp().default(sql`now()`),

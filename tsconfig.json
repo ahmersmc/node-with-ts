@@ -9,8 +9,13 @@
     "strict": true,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "paths": {
-      "@/*": ["./*"],
-      "@/schema*": ["./database/schema*"]
+      // "@/*": ["./*"],
+      "@/utils*": ["./src/utils*"],
+      "@/routes*": ["./src/routes*"],
+      "@/database*": ["./database*"],
+      "@/modals*": ["./src/modals*"],
+      "@/schema*": ["./database/schema*"],
+      "@/middlewares*": ["./src/middlewares*"]
     }
   },
   "exclude": ["node_modules"]
