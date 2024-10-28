@@ -5,6 +5,9 @@ import express, { Request, Response } from 'express'
 import authRouter from '@/routes/auth'
 import generateToken from '@/utils/jwtUtils'
 import validateToken from '@/middlewares/validateToken'
+import userRouter from '@/routes/user'
+import rolesRouter from '@/routes/roles'
+import roleRouter from '@/routes/role'
 
 const PORT = 3005
 const app = express()
@@ -18,8 +21,13 @@ app.use(bodyParser.json())
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello, server working')
 })
-app.use('/register', authRouter)
+app.use('/user', userRouter)
+
+app.use('/role', roleRouter)
+app.use('/roles', rolesRouter)
+
 app.use('/login', authRouter)
+app.use('/register', authRouter)
 // app.use('/admin', require('./routes/admin'))
 
 // Hardcoded User Data (In a real-world scenario, this would be retrieved from a database)

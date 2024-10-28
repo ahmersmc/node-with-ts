@@ -9,9 +9,9 @@ class AuthModal {
     db.select().from(usersTable).where(eq(usersTable.email, email))
 
   static createUser = (user: typeof usersTable.$inferInsert) =>
-    // db.insert(usersTable).values(user).returning()
-    db.insert(rolesTable).values({ name: 'teasddddstx' })
-    // db.select().from(rolesTable)
+    // db.insert(usersTable).values(user)
+    // db.insert(rolesTable).values({ name: 'teasddddstx' })
+    db.select().from(rolesTable)
 }
 
 export default AuthModal
