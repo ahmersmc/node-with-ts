@@ -1,3 +1,16 @@
-class UsreModal {}
+import { eq } from 'drizzle-orm'
 
-export default UsreModal
+import db from '@/database/drizzle'
+import usersTable from '@/database/schema/usersSchema'
+
+class UserModal {
+  static getUsers = () => db.select().from(usersTable)
+
+  static getUserByEmail = (email: string) =>
+    db.select().from(usersTable).where(eq(usersTable.email, email))
+
+  static createUser = (user: typeof usersTable.$inferInsert) =>
+    db.insert(usersTable).values(user).returning({ id: usersTable.id })
+}
+
+export default UserModal

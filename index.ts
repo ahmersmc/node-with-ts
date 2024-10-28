@@ -8,6 +8,7 @@ import validateToken from '@/middlewares/validateToken'
 import userRouter from '@/routes/user'
 import rolesRouter from '@/routes/roles'
 import roleRouter from '@/routes/role'
+import usersRouter from '@/routes/users'
 
 const PORT = 3005
 const app = express()
@@ -26,34 +27,37 @@ app.use('/user', userRouter)
 app.use('/role', roleRouter)
 app.use('/roles', rolesRouter)
 
+app.use('/user', userRouter)
+app.use('/users', usersRouter)
+
 app.use('/login', authRouter)
-app.use('/register', authRouter)
+app.use('/register', userRouter)
 // app.use('/admin', require('./routes/admin'))
 
 // Hardcoded User Data (In a real-world scenario, this would be retrieved from a database)
 const user = { id: 1, username: 'johnDoe', password: 'password' }
 
 // Login Route
-app.post('/login', (req, res) => {
-  const { username, password } = req.body
+// app.post('/login', (req, res) => {
+//   const { username, password } = req.body
 
-  // Check if username and password match
-  if (username === user.username && password === user.password) {
-    // Generate JWT token
-    const token = generateToken({ id: user.id, username: user.username })
+//   // Check if username and password match
+//   if (username === user.username && password === user.password) {
+//     // Generate JWT token
+//     const token = generateToken({ id: user.id, username: user.username })
 
-    res.json({
-      success: true,
-      message: 'Authentication successful!',
-      token: token,
-    })
-  } else {
-    res.status(401).json({
-      success: false,
-      message: 'Invalid username or password',
-    })
-  }
-})
+//     res.json({
+//       success: true,
+//       message: 'Authentication successful!',
+//       token: token,
+//     })
+//   } else {
+//     res.status(401).json({
+//       success: false,
+//       message: 'Invalid username or password',
+//     })
+//   }
+// })
 
 // Protected Route
 app.get(
