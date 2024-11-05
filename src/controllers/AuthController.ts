@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 
 import UserModal from '@/modals/UserModal'
+import generateToken from '@/utils/jwtUtils'
 
 class AuthController {
   static loginUser = async (req: Request, res: Response) => {
@@ -15,9 +16,11 @@ class AuthController {
 
     const user = await UserModal.getUserByEmail(email)
 
+    const token = generateToken({ user })
+
     if (user.length)
       return res.status(200).json({
-        data: user,
+        data: { token },
         success: true,
         message: 'User found',
       })
